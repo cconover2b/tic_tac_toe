@@ -15,10 +15,11 @@ from tkinter import *
 import random
 
 def main():
+    
     window.mainloop()
 
 
-# Next turn, determines when to switch players turns.
+# Next turn, determines when to switch players turns
 def next_turn(row, column):
     
     global player
@@ -36,7 +37,7 @@ def next_turn(row, column):
                 buttons[row][column]['text'] = players[1]
                 buttons[row][column].config(bg='red')
                 label2 = Label(text= 'You have been twisted', font=('consolas',20))
-                label2.pack(side='top')
+                label2.pack(side='bottom')
 
             else:
                 buttons[row][column]['text'] = player
@@ -53,6 +54,21 @@ def next_turn(row, column):
             # Game is a tie
             elif check_winner() == 'Tie':
                 label.config(text=(" Tie"))
+                # Add a flashing text on the bottom of the screen when a tie
+                list_ = [
+                    ['Are'],
+                    ['You'],
+                    ['Ready'],
+                    ['To'],
+                    ['RUMBLE!!']
+                    ]
+
+                i = 0
+                while i < 5:
+                    q = list_[i]
+                    label2.config(text=q)
+                    label2.pack(side='bottom')
+                    i += 1
 
         # If second player, check winner and announce winner or switch player
         else:
@@ -135,7 +151,7 @@ def empty_spaces():
 # Starting a new game
 def new_game():
 
-    global player
+    global player        
 
     # Randomly select player to start
     player = random.choice(players)
@@ -144,7 +160,7 @@ def new_game():
 
     # Clear board, remove all x's, o's, and reset board colors
     for row in range(3):
-         for column in range(3):
+        for column in range(3):
             buttons[row][column].config(text="",bg="#F0F0F0")
 
 # Set the board using tkinter
@@ -159,6 +175,10 @@ buttons = [[0,0,0],
 # Display the Player that will go first
 label = Label(text= player + ' turn', font=('consolas',20))
 label.pack(side='top')
+
+# Lable at the bottom 
+label2 = Label(text= "", font=('consolas',20))
+# label.pack(side='bottom')
 
 # New Game button configuration
 reset_button = Button(text='restart', font=('consolas',20),  command=new_game)
