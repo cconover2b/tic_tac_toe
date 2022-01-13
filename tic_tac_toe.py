@@ -1,3 +1,8 @@
+'''
+Tic-Tac-Toe
+Author: Craig Conover
+'''
+
 from tkinter import *
 import random
 
