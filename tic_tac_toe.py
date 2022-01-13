@@ -1,23 +1,45 @@
 '''
-Tic-Tac-Toe
+Tic-Tac-Toe Twist
 Author: Craig Conover
+
+This is Tic-Tac-Toe but with a twist.
+Every time that you make a move, you have 
+a one in three chances that your move will 
+actually be counted for the other player. 
+If you have been twisted the square will turn 
+red and it will let you on on the bottom of the
+screen. Happy X's and O's. :D
 '''
 
 from tkinter import *
 import random
+
+def main():
+    window.mainloop()
+
 
 # Next turn, determines when to switch players turns.
 def next_turn(row, column):
     
     global player
 
+    # Sets the twist factor. 
+    twist = random.randrange(1,4)
+
     # Evaluates 
     if buttons[row][column]['text'] == "" and check_winner() is False:
         
         # If first player, check winner and announce winner or switch player
         if player == players[0]:
+            # There is a one in 3 chance that their selection will be flipped to the other players value
+            if twist == 1:
+                buttons[row][column]['text'] = players[1]
+                buttons[row][column].config(bg='red')
+                label2 = Label(text= 'You have been twisted', font=('consolas',20))
+                label2.pack(side='top')
 
-            buttons[row][column]['text'] = player
+            else:
+                buttons[row][column]['text'] = player
 
             # No winner yet, switch player
             if check_winner() is False:
@@ -56,31 +78,31 @@ def check_winner():
     # Check rows for a winner
     for row in range(3):
         if buttons[row][0]['text'] == buttons[row][1]['text'] == buttons[row][2]['text'] != "":
-            buttons[row][0].config(bg='green')
-            buttons[row][1].config(bg='green')
-            buttons[row][2].config(bg='green')
+            buttons[row][0].config(bg='blue')
+            buttons[row][1].config(bg='blue')
+            buttons[row][2].config(bg='blue')
             return True
 
     # Check columns for a winner
     for column in range(3):
         if buttons[0][column]['text'] == buttons[1][column]['text'] == buttons[2][column]['text'] != "":
-            buttons[0][column].config(bg='green')
-            buttons[1][column].config(bg='green')
-            buttons[2][column].config(bg='green')
+            buttons[0][column].config(bg='blue')
+            buttons[1][column].config(bg='blue')
+            buttons[2][column].config(bg='blue')
             return True
 
     # Check diagnally from top left to bottom right for a winner
     if buttons[0][0]['text'] == buttons[1][1]['text'] == buttons[2][2]['text'] != "":
-        buttons[0][0].config(bg='green')
-        buttons[1][1].config(bg='green')
-        buttons[2][2].config(bg='green')
+        buttons[0][0].config(bg='blue')
+        buttons[1][1].config(bg='blue')
+        buttons[2][2].config(bg='blue')
         return True
 
     # Check diagnally from top right to bottom left for a winner
     elif buttons[0][2]['text'] == buttons[1][1]['text'] == buttons[2][0]['text'] != "":
-        buttons[0][2].config(bg='green')
-        buttons[1][1].config(bg='green')
-        buttons[2][0].config(bg='green')
+        buttons[0][2].config(bg='blue')
+        buttons[1][1].config(bg='blue')
+        buttons[2][0].config(bg='blue')
         return True
 
     # Check for a tie by having no winner no spaces left
@@ -127,15 +149,15 @@ def new_game():
 
 # Set the board using tkinter
 window = Tk()
-window.title('Tic-Tac-Toe')
-players = ['x','o']
+window.title('Tic-Tac-Toe Twist')
+players = ['X','O']
 player = random.choice(players)
 buttons = [[0,0,0],
             [0,0,0],
             [0,0,0]]
 
 # Display the Player that will go first
-label = Label(text= player + ' turn', font=('consolas',40))
+label = Label(text= player + ' turn', font=('consolas',20))
 label.pack(side='top')
 
 # New Game button configuration
@@ -149,8 +171,8 @@ frame.pack()
 # Game board configuration
 for row in range(3):
     for column in range(3):
-        buttons[row][column] = Button(frame, text="",font=('consolas',40), width=5, height=2, command= lambda row=row, column=column: next_turn(row, column))
+        buttons[row][column] = Button(frame, text="",font=('consolas',30), width=5, height=2, command= lambda row=row, column=column: next_turn(row, column))
         buttons[row][column].grid(row=row,column=column)
-    
 
-window.mainloop()
+if __name__ == "__main__":
+    main()
